@@ -36,6 +36,9 @@ for task in range(ntasks_per_cpu):
     index = rank * ntasks_per_cpu + task
     k_index = int(index / nomegas)
     omega_index = index % nomegas
+
+    if index >= ntasks:
+        break
     
     file_name = "data/therm_k_%d_omega_%d.h5" % (k_index, omega_index)
     file = h5py.File(file_name, "r")
@@ -46,7 +49,7 @@ for task in range(ntasks_per_cpu):
 
     pbar = tqdm(total=102, desc="Processing")
 
-    plt.figure(figsize=(6,8))
+    plt.figure(figsize=(6.027,8))
     for t in tt:
         index = 0
         plt.clf()
@@ -91,7 +94,7 @@ for task in range(ntasks_per_cpu):
             f.polarity = np.arctan2(f.v0[1], f.v0[0])
             index += 1
         
-        sys.showplot(t+100, "k%d_o%d_t%d" % (k_index, omega_index, t+1000))
+        sys.showplot(t+1000, "k%d_o%d_t%d" % (k_index, omega_index, t+1000))
         pbar.update(1)
         
     file.close()

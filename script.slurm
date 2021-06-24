@@ -4,7 +4,7 @@
 #SBATCH --account=bcamley1
 #SBATCH --mail-type=end
 #SBATCH --mail-user=wwang138@jh.edu
-##SBATCH --nodes=1
+#SBATCH --nodes=1
 ##SBATCH --ntasks-per-node=48
 #SBATCH --ntasks=36
 #SBATCH --cpus-per-task=1
@@ -15,6 +15,6 @@ set -e
 
 mpiexec ./test.exe
 wait
-mpiexec python py-plot/plot_mpi.py
-wait
+### mpiexec --mca mpi_warn_on_fork 0 python py-plot/plot_mpi.py 
+### wait
 date

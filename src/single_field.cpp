@@ -18,8 +18,6 @@ float Field::thickness = 2;
 float Field::phi0 = 1.;
 float Field::pixel = 1.;
 
-
-
 Field::Field(){}
 
 Field::Field(double x0, double y0, float r, double *v)
@@ -43,6 +41,9 @@ Field::Field(double x0, double y0, float r, double *v)
 
 	phi = dmatrix(0, N, 0, N);
 	fullphi = dmatrix(0, fullN_0, 0, fullN_1);
+    for(int i=0; i<=fullN_0; i++)
+        for(int j=0; j<=fullN_1; j++)
+            fullphi[i][j] = 0.;
 
 	for(int i=0; i<=N; i++)
 	{
@@ -446,9 +447,8 @@ void Field::save_data(const char * str)
 	}
 }
 
-
 /*
-int main(int argc, const char * argv[])
+int main(int argc, char ** argv)
 {
 	
 	double v[2] = {0.025, 0.025};

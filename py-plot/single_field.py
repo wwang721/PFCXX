@@ -106,6 +106,16 @@ class field(object):
         self.subdomain[0] += jshift
         self.subdomain[1] += ishift
 
+        if self.subdomain[0] > self.fullN[1]/2:
+            self.subdomain[0] = self.subdomain[0] - self.fullN[1]
+        elif subdomain[0] < -fullN[1]/2:
+            self.subdomain[0] = self.subdomain[0] + self.fullN[1]
+
+        if self.subdomain[1] > self.fullN[0]/2:
+            self.subdomain[1] = self.subdomain[1] - self.fullN[0]
+        elif self.subdomain[1] < -self.fullN[0]/2:
+            self.subdomain[1] = self.subdomain[1] + self.fullN[0]
+
     def shift(self):
         self.center = self.center_of_mass()
         d = np.linalg.norm(self.center)

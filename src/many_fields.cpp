@@ -13,10 +13,10 @@ using namespace H5;
 
 
 
-System::System() : Field()
+System::System(int MPI_index) : Field(), MPI_rank(MPI_index)
 {
     unsigned seed;
-    seed = time(0);
+    seed = time(0) * (MPI_index + 1);
     generator.seed(seed);
 
     float x0s[5] = {-40, -20, 0, 20, 40};
@@ -25,11 +25,12 @@ System::System() : Field()
     num_of_field = 15;
     sys = new Field [num_of_field];
 
+    std::uniform_real_distribution<double> uniform(-PI, PI);
+
     double v0[2], angle;
     for(int i=0; i<5; i++)
         for(int j=0; j<3; j++)
         {   
-            std::uniform_real_distribution<double> uniform(-PI, PI);
             angle = uniform(generator);
             float vv = 0.035;
             v0[0] = 0.035 * cos(angle);
@@ -37,12 +38,21 @@ System::System() : Field()
             sys[index] = Field(x0s[i], y0s[j], 12, v0);  
 
             unsigned seed;
-            seed = time(0) * (index+1);
+            seed = time(0) * (index + 1) * (MPI_index + 1);
             sys[index].generator.seed(seed);
             index += 1;   
         }
 
     confinement = dmatrix(0, fullN_0, 0, fullN_1);
+    conf = dmatrix(0, fullN_0, 0, fullN_1);
+
+    for(int i=0; i<=fullN_0; i++)
+        for(int j=0; j<=fullN_1; j++)
+        {
+            confinement[i][j] = 0.;
+            conf[i][j] = 0.;
+        }
+
     for(int i=70; i<=fullN_0; i++)
         for(int j=0; j<=40; j++)
             confinement[i][j] = 1.;
@@ -55,7 +65,7 @@ System::System() : Field()
         for(int j=0; j<=fullN_1; j++)
             confinement[i][j] = 1.;
 
-    conf = dmatrix(0, fullN_0, 0, fullN_1);
+    
     for(int i=70; i<=fullN_0; i++)
         for(int j=0; j<=fullN_1; j++)
             conf[i][j] = 1.;
@@ -135,8 +145,8 @@ void System::update(float dt, bool therm, float k_theta, float omega)
                 h1[i][j] += val;
             }
 
-    second_diff(fullN_0, fullN_1, h1, 0, h1_laplace);
-    second_diff(fullN_0, fullN_1, h1, 1, temp);
+    Field::second_diff(fullN_0, fullN_1, h1, 0, h1_laplace);
+    Field::second_diff(fullN_0, fullN_1, h1, 1, temp);
     for (int i = 0; i <= fullN_0; i++)
         for (int j = 0; j <= fullN_1; j++)
             h1_laplace[i][j] += temp[i][j];
@@ -409,15 +419,26 @@ int System::simulation(const char *str, float T, float dt, bool therm, float k_t
                 error.printErrorStack();
                 return -1;
             }
-		/*
-        if(therm == true)
-            procBar(int(k * dt * 100/T), "Thermalize");
-        else
-            procBar(int(k * dt * 100/T));
-		*/
+
+            if(MPI_rank == 0)
+            {
+                if(therm == true)
+                    procBar(int(k * dt * 100/T), "Thermalize");
+                else
+                    procBar(int(k * dt * 100/T));
+            }
         }
     }
-    //std::cout<<std::endl;
+
+    if(MPI_rank == 0)
+        std::cout<<std::endl;
+
     return 0;
 }
 
+System::~System()
+{
+    delete sys;
+    free_dmatrix(confinement, 0, fullN_0, 0, fullN_1);
+    free_dmatrix(conf, 0, fullN_0, 0, fullN_1);
+}
