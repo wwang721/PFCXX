@@ -1,10 +1,19 @@
 *.png
+*.pdf
 *.gif
 *.mp4
 *.h5
+*.hdf5
+*.csv
 
 *.DS_Store
 *.a
 *.exe
 *.out
-./build/*
+
+# exclude everything in build/
+build/*
+# but keep this empty direcotry
+!build/.gitkeep
+
+py-plot/__pycache__/*
