@@ -12,6 +12,7 @@ The resource management system for the HPC clusters is
 Python is too slow, so I choose C++!
 
 ## How to compile
+Make sure you have installed *CMake* in your machine,
 1. `cd build`
 2. `cmake ..`
 3. `make`
@@ -19,14 +20,19 @@ Python is too slow, so I choose C++!
 If everything goes smoothly, after `cd ..`, you will see an executable file *test.exe* in the main directory.
 
 ## How to run
-1. create a *data* directory `mkdir data`
-2. submit your job to the cluster `sbatch script.slurm` 
+1. create a directory with name *data* `mkdir data`
+2. submit your job to the cluster with command `sbatch script.slurm`, or just `mpiexec -n #CORES test.exe`, where `#CORES` is the number of cores you can use
+
+All the data are in the *data* fold in HDF5 format.
 
 ## How to plot
-1. creat a *figures* directory `mkdir figures`
-2. `python py-plot/plot.py` or use the MPI version `plot_mpi.py`
+1. creat a directory with name *figures* `mkdir figures`
+2. `python py-plot/plot.py` or use the MPI version `mpiexec -n #CORES python py-plot/plot_mpi.py`
 
+All the figures or videos are in the *figures* fold.
 
+## Notice
+Since I haven't constructed the standard input files yet, you have to modify the *src/main.cpp* and *py-plot/plot(_mpi).py* files to change input parameters.
 
 <br />
 
