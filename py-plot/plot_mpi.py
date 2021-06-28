@@ -24,8 +24,8 @@ comm = MPI.COMM_WORLD
 size = comm.Get_size()
 rank = comm.Get_rank()
 
-nomegas = 6
-nks = 6
+nomegas = 11
+nks = 11
 
 ntasks = nomegas * nks
 ntasks_per_cpu = int(np.ceil(float(ntasks) / size))
@@ -45,11 +45,11 @@ for task in range(ntasks_per_cpu):
     sys = system()
     sys.conf = file["confinement"][:]
 
-    tt = np.arange(0, 1001, 20)
+    tt = np.arange(0, 2001, 20)
 
     pbar = tqdm(total=102, desc="Processing")
 
-    plt.figure(figsize=(6.027,8))
+    plt.figure(figsize=(6.0267,8))
     for t in tt:
         index = 0
         plt.clf()
@@ -94,12 +94,12 @@ for task in range(ntasks_per_cpu):
             f.polarity = np.arctan2(f.v0[1], f.v0[0])
             index += 1
         
-        sys.showplot(t+1000, "k%d_o%d_t%d" % (k_index, omega_index, t+1000))
+        sys.showplot(t+2000, "k%d_o%d_t%d" % (k_index, omega_index, t+2000))
         pbar.update(1)
         
     file.close()
     
-    tt = np.arange(0, 2001, 20)
+    tt = np.arange(0, 4001, 20)
 
     animation(tt, k_index, omega_index, "figures/k_%d_omega_%d" % (k_index, omega_index))
 

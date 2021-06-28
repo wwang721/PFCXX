@@ -324,12 +324,12 @@ class field(object):
         y0 = self.center[1] + self.subdomain[1] * self.pixel
 
         plt.arrow(x0, y0, self.v0[0] * scale, self.v0[1] * scale,
-                  width=1,
+                  width=0.8,
                   length_includes_head=True,  # 增加的长度包含箭头部分
-                  head_width=3,
+                  head_width=2.8,
                   head_length=4,
-                  fc='b',
-                  ec='b')
+                  fc=(0/255, 52/255, 114/255),
+                  ec=(0/255, 52/255, 114/255))
 
     def showdomainbox(self):
         x = (self.subdomain[0] - self.N/2) * self.pixel

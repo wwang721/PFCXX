@@ -16,17 +16,17 @@ int main(int argc, char ** argv)
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     
-    int nomegas = 6;
+    int nomegas = 11;
 	float * omegas;
 	omegas = new float [nomegas];
     for(int i=0; i<nomegas; i++)
-        omegas[i] = 0.01 * i;
+        omegas[i] = 0.005 * i;
 
-	int nks = 6;
+	int nks = 11;
     float * ks;
 	ks = new float [nks];
     for(int i=0; i<nks; i++)
-        ks[i] = 0.002 * i;
+        ks[i] = 0.001 * i;
 
     int ntasks = nomegas * nks;
 
@@ -47,10 +47,10 @@ int main(int argc, char ** argv)
 		char fileName[50];
         sprintf(fileName, "data/therm_k_%d_omega_%d", k_index, omega_index);
         
-        cells.simulation(fileName, 1000, 0.5, true, ks[k_index], omegas[omega_index]);  // thermalization
+        cells.simulation(fileName, 2000, 0.5, true, ks[k_index], omegas[omega_index]);  // thermalization
 		
         sprintf(fileName, "data/simu_k_%d_omega_%d", k_index, omega_index);
-        cells.simulation(fileName, 1000, 0.5, false, ks[k_index], omegas[omega_index]);
+        cells.simulation(fileName, 2000, 0.5, false, ks[k_index], omegas[omega_index]);
         
     }
 

@@ -83,9 +83,10 @@ class system(field):
         edge1 = self.fullN[1] * self.pixel
 
         phi = np.zeros((self.fullN[0]+1, self.fullN[1]+1))
+        '''
         for f in self.sys:
             phi += f.fullphi
-
+        '''
         if therm is True:
             phi += self.conf
         else:
@@ -100,13 +101,14 @@ class system(field):
                                                                2, edge1/2, -edge0/2, edge0/2), vmax=1.5, vmin=0)
         # plt.imshow(self.sys[0].phi, cmap='gray_r', origin="lower", extent=(-edge/2, edge/2, -edge/2, edge/2), vmax=1.5, vmin=0)
         # plt.imshow(self.sys[1].phi, cmap='gray_r', origin="lower", extent=(-edge/2, edge/2, -edge/2, edge/2), vmax=1.5, vmin=0)		# plt.contour(X,Y, phi, [phi0/2], colors="k")
-        plt.colorbar()
+        # plt.colorbar()
         # plt.contour(X,Y, phi, [self.sys[0].phi0/2], colors="k")
         # self.sys[0].showdomainbox()
         for f in self.sys:
             f.showpolarity()
             # field.showdomainbox()
             plt.contour(X, Y, f.fullphi, [f.phi0/2], colors="k")
+            plt.contourf(X, Y, f.fullphi, [f.phi0/2, (f.phi0/2) + 15*f.phi0], colors=[(127/255,236/255,173/255)], alpha=0.3)
 
         if therm is True:
             plt.contour(X, Y, self.conf, [0.5], colors="k")

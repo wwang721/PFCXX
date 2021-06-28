@@ -24,7 +24,7 @@ tt = np.arange(0, 1001, 20)
 
 pbar = tqdm(total=102, desc="Processing")
 
-plt.figure(figsize=(6,8))
+plt.figure(figsize=(6.0267,8))
 for t in tt:
 	index = 0
 	plt.clf()

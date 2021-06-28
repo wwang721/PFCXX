@@ -319,7 +319,7 @@ int System::simulation(const char *str, float T, float dt, bool therm, float k_t
         t += dt;
         update(dt, therm, k_theta, omega);
         
-        if(k % 20 == 0)
+        if(k % 40 == 0)
         {
 
             try
