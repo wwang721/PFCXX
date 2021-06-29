@@ -9,7 +9,8 @@
 The resource management system for the HPC clusters is
 ![slurm](https://img.shields.io/badge/SLURM-19.05.7-44cef6.svg).
 
-Python is too slow, so I choose C++!
+Here shows one of the example videos:
+![example_video](videos/k_1_omega_6.mp4)
 
 ## How to compile
 Make sure you have installed *CMake* in your machine,
