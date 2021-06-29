@@ -9,6 +9,10 @@
 The resource management system for the HPC clusters is
 ![slurm](https://img.shields.io/badge/SLURM-19.05.7-44cef6.svg).
 
+Here shows one of the example videos:
+
+![example_video](videos/test.gif)
+
 ## How to compile
 Make sure you have installed *CMake* in your machine,
 1. `cd build`
